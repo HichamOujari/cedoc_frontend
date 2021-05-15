@@ -23,7 +23,7 @@ import ProtectedRouter from "./protectedRoute"
 import {AuthProvider} from "./authContext"
 import Cookies from "js-cookie"
 
-Cookies.set("hostpath","http://localhost:3001")
+Cookies.set("hostpath","https://cedoc-back.herokuapp.com")
 
 export default class App extends Component {
   render() {
