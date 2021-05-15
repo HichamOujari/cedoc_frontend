@@ -1,0 +1,171 @@
+.MainAncienDoctorant,.MainDoctorantPreinscrit{
+    position: absolute;
+    top: 50px;
+    width: Calc(100vw - 360px);
+    height: Calc(100vh - 80px);
+    left: 300px;
+    padding-left: 60px;
+    padding-top: 30px;
+    overflow: scroll;
+}
+.MainDoctorantPreinscrit::-webkit-scrollbar,.MainAncienDoctorant::-webkit-scrollbar{
+    width: 1px;
+    height: 1px;
+}
+
+.MainDoctorantPreinscrit>.Content,.MainAncienDoctorant>.Content{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel{
+    width: 90%;
+    margin-bottom: 60px;
+    text-align: center;
+}
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel>.UploadedSucc{
+    background-color: #6acfbdfd;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.NotUploaded{
+    background-color: #cf6a6afd;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    min-width: 300px;
+    text-align: center;
+}
+
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel>.title{
+    background-color: rgba(225, 241, 255, 0.475);
+    border: 1px solid gray;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel>.Upload{
+    height: 30vh;
+    background: #66b4bf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel>.Upload>.icon{
+    font-size: 90px;
+}
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel>.Upload>.text{
+    font-size: 20px;
+}
+.MainDoctorantPreinscrit>.Content>.SectionuploadExcel>.BtnSubmit{
+    width: 200px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    height: 30px;
+    background-color: #064e41;
+    border: 1px solid #064e41;
+    border-radius: 7px;
+    color: white;
+    font-weight:600;
+    cursor: pointer;
+}
+
+
+.files{
+    width: 95%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px;
+    
+}
+.files{
+    text-decoration: none;
+    color: black;
+}
+.files>.file{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.files>.file:hover{
+    border: 1px solid;
+}
+.files>.file>.icon{
+    font-size: 46px;
+}
+.files>.file>.title{
+    font-weight: 800;
+    text-align: center;
+    font-size: 20px;
+    text-decoration: underline;
+    padding-bottom: 3px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.files>.file>.type{
+    font-size: 18px;
+    text-align: center;
+}
+.files>a>.file>.type>span{
+    margin-left: 10px;
+    text-transform: capitalize;
+}
+
+.MainAncienDoctorant>.Content>.showDoctFileSection{
+    height: 90vh;
+    width: 90%;
+    background-color: rgba(128, 128, 128, 0.863);
+    position: fixed;
+    top: 5vh;
+    left: 5%;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.MainAncienDoctorant>.Content>.showDoctFileSection>.CloseBar{
+    display: flex;
+    padding-bottom: 5px;
+    justify-content: space-between;
+    padding-right: 10px;
+    padding-top: 5px;
+    border-bottom: 2px solid ;
+    width: 100%;
+}
+.MainAncienDoctorant>.Content>.showDoctFileSection>.CloseBar>.CloseIcon,.MainAncienDoctorant>.Content>.showDoctFileSection>.CloseBar>a>.DownloadIcon{
+    font-size: 35px;
+    color: black;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.MainAncienDoctorant>.Content>.showDoctFileSection>.CloseBar>.CloseIcon:hover,.MainAncienDoctorant>.Content>.showDoctFileSection>.CloseBar>a>.DownloadIcon:hover{
+    color: white;
+}
+.MainAncienDoctorant>.Content>.showDoctFileSection>.content{
+    margin-top: 10px;
+    width: 95%;
+    height: Calc(90vh - 63px);
+}
