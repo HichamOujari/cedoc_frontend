@@ -7,6 +7,8 @@ import Cookies from "js-cookie"
 import Axios from "axios"
 import md5 from "md5"
 
+const hostPath = Cookies.get("hostpath")
+
 const Login =()=> {
     const {authToken,setAuthToken} = useContext(AuthContext)
     const [passMode,setPassMode] = useState(0)
@@ -16,7 +18,7 @@ const Login =()=> {
     const attempLogin = async (e)=>{
         e.preventDefault();
         if(email && password){
-            Axios.post("http://localhost:3001/auth/login",{
+            Axios.post(hostPath+"/auth/login",{
                 email:email,
                 password:md5(password)
             })

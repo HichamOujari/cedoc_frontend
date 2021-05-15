@@ -4,6 +4,9 @@ import "./adminDash.css"
 import PathingPage from "../../shared/pathingPage"
 import CardDashboard from "../../shared/cardDashboard"
 import Axios from "axios";
+import Cookies from "js-cookie"
+
+const hostPath = Cookies.get("hostpath")
 
 class AdminDash extends Component {
     state={
@@ -13,7 +16,7 @@ class AdminDash extends Component {
         nbrTotalRefused:0,
     }
     componentDidMount(){
-        Axios.post("http://localhost:3001/auth/getDashInfos",{struct:-1})
+        Axios.post(hostPath+"/auth/getDashInfos",{struct:-1})
         .then(resp=>{
             if(resp.data.error===true){
                 
