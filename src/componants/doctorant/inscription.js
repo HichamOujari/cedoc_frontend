@@ -7,39 +7,45 @@ import CloseIcon from '@material-ui/icons/Close';
 import Axios from "axios"
 import Cookies from "js-cookie"
 
-/*const toBase64 = (file,callbac)=>{
-    return new Promise((resolve,reject)=>{
-        let reader = new FileReader();
-        reader.readAsDataURL(file)
-        reader.onload = (e)=>{
-            return resolve(e.target.result)
-        }
-    })
-}*/
-
 class Inscription extends Component {
     state={
         files:[],
-        data:{numDoss:"",CNE:""}
+        data:{numDoss:"",CNE:""},
+        errMsg:"",
+        succMesg:""
     }
     submitFiles = (e) =>{
         e.preventDefault()
-        var formData = new FormData()
-        formData.append("userID",Cookies.get("USERid"))
-        this.state.files.map(ele=>{
-            formData.append(ele.name,ele.data)
-            return null
+        this.setState({
+            errMsg:""
         })
-        console.log(formData.get("userID"))
-        Axios.post("http://localhost:3001/auth/uploadFileInscription",{
-            data:formData,
-            headers:{
-                'Content-Type':'multipart/form-data'
-            }
-        })
-        .then(resp=>{
-
-        })
+        if(this.state.files.length===0){
+            this.setState({
+                errMsg:"Il faut selectioner des fichier"
+            })
+        }else{
+            const formData = new FormData();
+            this.state.files.map(ele=>formData.append(ele.name,ele.data))
+            formData.append("idUser",Cookies.get("USERid"))
+            Axios.post("http://localhost:3001/auth/uploadFileInscription",formData,{
+                headers:{
+                    'Content-Type':"multipart/form-data"
+                }
+            })
+            .then(resp=>{
+                if(resp.data.error===false){
+                    this.setState({
+                        succMesg:"Bien enregistré",
+                        files:[]
+                    })
+                    setTimeout(()=>document.location.reload(),2000)
+                }else{
+                    this.setState({
+                        errMsg:"Un probleme y arrivé, merci de réessayer ultérieurement"
+                    })
+                }
+            })
+        }
     }
     componentDidMount(){
         Axios.post('http://localhost:3001/auth/getDoctInfos',{
@@ -58,6 +64,9 @@ class Inscription extends Component {
                 <div className="MainInscription">
                     <Title title="Inscription Doctorant" />
                     <form onSubmit={this.submitFiles} className="FormInscription">
+                        
+                    <p className="errorMessage">{this.state.errMsg}</p>
+                    <p className="succMessage">{this.state.succMesg}</p>
                         <div className="first">
                             <div className="NumDossier">
                                 <p className="title">Numero de dossier</p>
@@ -99,7 +108,6 @@ class Inscription extends Component {
                                                 <p className="size">{ele.size}Ko</p>
                                                 <p className="progress">Done</p>
                                                 <CloseIcon onClick={()=>{
-                                                    console.log(ele.id)
                                                     var tmp=[]
                                                     this.state.files.map((sousEle)=>{
                                                         if(sousEle.id!==ele.id) tmp=[...tmp,sousEle]
@@ -108,7 +116,6 @@ class Inscription extends Component {
                                                     this.setState({
                                                         files:tmp
                                                     })
-                                                    console.log(tmp)
                                                 }} className="icon"/>
                                             </div>
                                         </div>)

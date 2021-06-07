@@ -132,3 +132,23 @@ code {
 .none{
   display: none;
 }
+
+.errorMessage{
+  color: red;
+  background: rgba(209, 140, 140, 0.678);
+  width: 80%;
+  font-size: 20px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.succMessage{
+  color: green;
+  background: rgba(126, 202, 129, 0.678);
+  width: 80%;
+  font-size: 20px;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+}

@@ -9,6 +9,7 @@ import XLSX from 'xlsx';
 import { SheetJSFT } from './excelToJson/types';
 import { make_cols } from './excelToJson/MakeColumns';
 import Axios from 'axios';
+import FolderSharedIcon from '@material-ui/icons/FolderShared';
 
 class DoctorantPreinscrit extends Component {
     constructor(props) {
@@ -61,6 +62,11 @@ class DoctorantPreinscrit extends Component {
             Components:VisibilityIcon,
             className:"text-primary",
             isVisibleBtn:true
+        },{
+            Components:FolderSharedIcon,
+            className:"text-secondary",
+            isFolderBtn:true,
+            path:"/admin/doctorants/"
         },
     ]
     handleFile() {
@@ -71,13 +77,15 @@ class DoctorantPreinscrit extends Component {
             const rABS = !!reader.readAsBinaryString;
             reader.onload = (e) => {
                 const bstr = e.target.result;
-                const wb = XLSX.read(bstr, { type: rABS ? 'binary' : 'array', bookVBA : true });
+                const wb = XLSX.read(bstr,{type: rABS ? 'binary' : 'array', bookVBA : true });
                 const wsname = wb.SheetNames[0];
                 const ws = wb.Sheets[wsname];
-                var data = XLSX.utils.sheet_to_json(ws,{defval:""});
+                var data = XLSX.utils.sheet_to_json(ws,{defval:"",header:"1:1"});
                 data = data.map((ele,index)=>data[index] = {...data[index],Etat_inscription:"Pre-inscrire"})
                 this.setState({ data: data, cols: make_cols(ws['!ref']) });
-                Axios.post("http://localhost:3001/auth/importExcel",{
+                console.log(data)
+                
+                /*Axios.post("http://localhost:3001/auth/importExcel",{
                     data:data
                 }).then(response=>{
                     if(response.data.error===false) this.setState({uploadedSucc:true,notFileUploaded:false})
@@ -87,7 +95,7 @@ class DoctorantPreinscrit extends Component {
                             uploadedErrMsg:response.data.message.message.sqlMessage
                         })
                     }
-                })
+                })*/
             };
             if (rABS) {
                 reader.readAsBinaryString(this.state.file);

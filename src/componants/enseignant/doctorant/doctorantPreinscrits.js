@@ -9,13 +9,17 @@ import Cookies from "js-cookie"
 import CancelIcon from '@material-ui/icons/Cancel';
 
 const Accept = ({className,id,chef})=>{
-    return (<p onClick={()=>{
+    return chef===true?
+     (<p onClick={()=>{
         document.getElementById("showChooseEncForm").click()
         document.getElementById("idDoctAccpt").value=id
-    }} className={className}>Accepter</p>)
+    }} className={className}>Accepter</p>) :
+    (<p  className={className}>Accepter</p>)
+    
 }
 const Refuse = ({className,id,chef})=>{
-    return (<p onClick={()=>{
+    return chef===true?
+    (<p onClick={()=>{
         Axios.post("http://localhost:3001/auth/selectPretDoct",{
             id:id,
             cmd:-1,
@@ -25,7 +29,8 @@ const Refuse = ({className,id,chef})=>{
 
             }else document.getElementById("IdUpdatePreselectDoct").click()
         })
-    }} className={className}>Réfuser</p>)
+    }} className={className}>Réfuser</p>):
+    (<p className={className}>Réfuser</p>)
 }
 class EnsgDocotrantPreinscrit extends Component {
     contentAction =[
@@ -67,7 +72,8 @@ class EnsgDocotrantPreinscrit extends Component {
               nomDATA:"MoyenneDip1",
               nickname:"Moyenne"
           },
-        ]
+        ],
+        mesgError:""
     }
     componentDidMount(){
         document.getElementById("IdUpdatePreselectDoct").click()
@@ -105,7 +111,7 @@ class EnsgDocotrantPreinscrit extends Component {
                 <div className="MainEnsgDocotrantPreinscrit">
                     <PathingPage title="Doctorants préinscrits" paths={["Cedoc Emi",this.props.grade,this.state.structure,"Doctorants préinscrits"]}/>
                     <div className="Content">
-                        <Table content={this.contentAction} action={true} title="La liste des Doctorants préinscrits" data={this.state.data} attribute={this.state.attribute}/>
+                        <Table content={this.contentAction} action={true} title="La liste des Doctorants préinscrits" data={this.state.data} ChefEq={this.props.ChefEq} attribute={this.state.attribute}/>
                     </div>
                 </div>
                 <input id="IdUpdatePreselectDoct" type="hidden" hidden onClick={()=>{
@@ -138,32 +144,52 @@ class EnsgDocotrantPreinscrit extends Component {
                         }} className="icon" />
                     </div>
                     <div className="content">
-                        <input disabled id="idDoctAccpt"  />
-                        <select id="ChoixEncadrant">
+                        <p className="errorMessage">{this.state.mesgError}</p>
+                        <input disabled id="idDoctAccpt" />
+                        <select id="ChoixEncadrant" className="ChoixEncadrant">
                             <option value="-1">choisir un encadrant</option>
                             {this.state.ensgToEncad.map((ele,index)=>{
                                 return (<option key={index} value={ele.id}>{ele.nom}</option>)
                             })}
                         </select>
+                        <select id="ChoixCoEncadrant" className="ChoixEncadrant">
+                            <option value="-1">choisir un coEncadrant</option>
+                            {this.state.ensgToEncad.map((ele,index)=>{
+                                return (<option key={index} value={ele.id}>{ele.nom}</option>)
+                            })}
+                        </select>
                         <button onClick={()=>{
-                            if(document.getElementById("ChoixEncadrant").value!=="-1"){
-                                Axios.post("http://localhost:3001/auth/selectPretDoct",{
-                                    id:document.getElementById('idDoctAccpt').value,
-                                    cmd:1,
-                                    encadrant:document.getElementById("ChoixEncadrant").value,
-                                })
-                                .then(resp=>{
-                                    if(resp.data.error===true){
+                            this.setState({
+                                mesgError:""
+                            })
+                            if(document.getElementById("ChoixEncadrant").value!=="-1" && document.getElementById("ChoixCoEncadrant").value!=="-1"){
+                                if(document.getElementById("ChoixEncadrant").value!==document.getElementById("ChoixCoEncadrant").value){
+                                    Axios.post("http://localhost:3001/auth/selectPretDoct",{
+                                        id:document.getElementById('idDoctAccpt').value,
+                                        cmd:1,
+                                        encadrant:document.getElementById("ChoixEncadrant").value,
+                                        coencadrant:document.getElementById("ChoixCoEncadrant").value,
+                                    })
+                                    .then(resp=>{
+                                        console.log(resp.data)
+                                        if(resp.data.error===true){
 
-                                    }else {
-                                        this.setState({
-                                            stateAccepForm:"none",
-                                        })
-                                        document.getElementById("IdUpdatePreselectDoct").click()
-                                    }
-                                })
+                                        }else {
+                                            this.setState({
+                                                stateAccepForm:"none",
+                                            })
+                                            document.getElementById("IdUpdatePreselectDoct").click()
+                                        }
+                                    })
+                                }else{
+                                    this.setState({
+                                        mesgError:"Encadrant doit etre different du coEncadrant"
+                                    })
+                                }
                             }else{
-                                document.getElementById("ChoixEncadrant").style.border="2px solid red"
+                                this.setState({
+                                    mesgError:"Il faut selectioner un encadrant"
+                                })
                             }
                         }}>Accepter</button>
                     </div>

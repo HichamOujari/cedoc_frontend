@@ -1,29 +1,50 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route,Switch} from "react-router-dom"
+
+
+/* Componant de page d'accueil */
 import Home from "./componants/home/index"
+
+/* Componant de page d'actualité */
 import Actualite from "./componants/actualite/index"
+
+/* Componant de page d'authentification */
 import Login from "./componants/auth/index"
+
+/* Componant de page importation des fichier d'inscription */
 import Inscription from "./componants/doctorant/inscription"
+
+/* Componant de page de profil pour les doctorants */
 import Profil from "./componants/doctorant/profil"
+
+/* Componant de page d'accueil pour la partie responsable cedoc */
 import AdminDash from "./componants/admin/dashboard/index"
+
+/* Componant de page d'anciens doctorants pour la partie admin */
 import AncienDoctorant from "./componants/admin/doctorant/ancienDoctorant"
+
+/* Componant de page des nouveaux doctorants  pour la partie admin*/
 import DoctorantPreinscrit from "./componants/admin/doctorant/doctorantPreinscrit"
+
+/* Componant de page */
 import Enseignants from "./componants/admin/enseignant/index"
 import Structure from "./componants/admin/structures/index"
 import ProfilAdmin from "./componants/admin/profil/index"
+import Hisfiles from "./componants/admin/doctorant/hisfiles"
 import EnseignantDash from "./componants/enseignant/dashboard/enseignantDash"
 import EnsgDocotrantPreinscrit from "./componants/enseignant/doctorant/doctorantPreinscrits"
 import EnsgDoctorantAct from "./componants/enseignant/doctorant/doctorantActual"
 import EnsgEnseignants from "./componants/enseignant/enseignant/index"
 import ProfilEnseig from "./componants/enseignant/profil/index"
 import Reinscrire from "./componants/doctorant/re-inscrire"
-import Hisfiles from "./componants/admin/doctorant/hisfiles"
-
+import HisfilesFromEnsg from "./componants/enseignant/doctorant/document"
+import MyDocuments from "./componants/doctorant/myDocuments"
 import ProtectedRouter from "./protectedRoute"
 import {AuthProvider} from "./authContext"
 import Cookies from "js-cookie"
 
-Cookies.set("hostpath","https://cedoc-back.herokuapp.com")
+//Cookies.set("hostpath","https://cedoc-back.herokuapp.com")
+Cookies.set("hostpath","http://localhost:3001")
 
 export default class App extends Component {
   render() {
@@ -45,6 +66,9 @@ export default class App extends Component {
             </ProtectedRouter>
             <ProtectedRouter path='/re-inscription' exact>
               <Reinscrire/>
+            </ProtectedRouter>
+            <ProtectedRouter path='/mes-documents' exact>
+              <MyDocuments/>
             </ProtectedRouter>
             <ProtectedRouter path='/profil' exact>
               <Profil/>
@@ -94,6 +118,9 @@ export default class App extends Component {
             </ProtectedRouter>
             <ProtectedRouter path='/enseignant/profil' exact>
               <ProfilEnseig grade="Enseignant"/>
+            </ProtectedRouter>
+            <ProtectedRouter path='/documents/doctorants/:id' exact>
+              <HisfilesFromEnsg grade={(Cookies.get("path")!==undefined && Cookies.get("path").includes("chef"))?"Chef d'equipe":"Enseignant"} ChefEq={(Cookies.get("path")!==undefined && Cookies.get("path").includes("chef"))?true:false}/>
             </ProtectedRouter>
 
 

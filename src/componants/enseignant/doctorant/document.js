@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import BarsAdmin from "../barsAdmin"
-import "./doctorant.css"
+import BarsEnseignant from "../barsEnseignant"
+import "./style.css"
 import PathingPage from "../../shared/pathingPage"
 import axios from 'axios';
 import DoctDocument from "../../shared/doct_document"
+import Cookies from "js-cookie"
 
-class Hisfiles extends Component {
+class HisfilesFromEnsg extends Component {
     state={
         doctNom:"",
     }
@@ -24,13 +25,28 @@ class Hisfiles extends Component {
                 })
             }
         })
+        axios.post('http://localhost:3001/auth/getEnsgAccountInfos',{
+            userID:Cookies.get("USERid"),
+            type:Cookies.get("path"),
+        })
+        .then(resp=>{
+            if(resp.data.error===true){
+                this.setState({
+                    EnsgError:true
+                })
+            }else{
+                this.setState({
+                    structure:resp.data.data.nom
+                })
+            }
+        })
     }
     render() {
         return (
             <div>
-                <BarsAdmin/>
+                <BarsEnseignant ChefEq={this.props.ChefEq}/>
                 <div className="MainAncienDoctorant">
-                    <PathingPage title={"les fichiers de "+this.state.doctNom} paths={["Cedoc Emi","Admin","Les ancien doctorants","Les fichiers personnels"]}/>
+                    <PathingPage title={"les fichiers de "+this.state.doctNom} paths={["Cedoc Emi",this.props.grade,this.state.structure,"Les ancien doctorants","Les fichiers personnels"]}/>
                     <DoctDocument idDoc={document.location.href.split("doctorants/")[1]} />
                 </div>
             </div>
@@ -38,4 +54,4 @@ class Hisfiles extends Component {
     }
 }
 
-export default Hisfiles;
+export default HisfilesFromEnsg;

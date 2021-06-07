@@ -5,9 +5,29 @@ import {Link} from "react-router-dom"
 import SearchIcon from '@material-ui/icons/Search';
 import PersonIcon from '@material-ui/icons/Person';
 import Cookies from "js-cookie"
+import Axios from "axios"
 
 class Navbar extends Component {
     token = Cookies.get('token')
+    state = {
+        isRegistred:false
+    }
+    componentDidMount(){
+        if(Cookies.get("USERid")===undefined) return false
+        Axios.post("http://localhost:3001/auth/isRegistred",{
+            userID:Cookies.get("USERid")
+        })
+        .then(resp=>{
+            console.log(resp.data)
+            if(resp.data.isRegistred===true){
+                this.setState({
+                    isRegistred:true
+                })
+                return true
+            }
+            return false
+        })
+    }
     render() {
         return (
             <div className="NavBar">
@@ -21,8 +41,9 @@ class Navbar extends Component {
                         <li className="doctorant">
                             Doctorant
                             <ul className="dropdownEle_doctorantNavbar">
-                                <Link to="/inscription"><li>Inscription</li></Link>
+                                {this.state.isRegistred?null:<Link to="/inscription"><li>Inscription</li></Link>}
                                 <Link to="/re-inscription"><li>Réinscription</li></Link>
+                                <Link to="/mes-documents"><li>Mes fichiers</li></Link>
                             </ul>
                         </li>
                     </ul>

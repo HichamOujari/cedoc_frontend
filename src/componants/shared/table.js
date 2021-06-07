@@ -93,12 +93,19 @@ class Table extends Component {
                                                 document.getElementById(Icon.idBtn).click()
                                             }} key={i} className={Icon.className}/>)
                                             
-                                            else if(Icon.isAcceptBtn === true) return (<Icon.Components key={i} id={ele.id} chef={ele.chef} className={Icon.className}/>)
+                                            else if(Icon.isAcceptBtn === true) return (<Icon.Components key={i} id={ele.id} chef={this.props.ChefEq} className={Icon.className}/>)
                                             
-                                            else if(Icon.isRefuseBtn === true) return (<Icon.Components key={i} id={ele.id} chef={ele.chef} className={Icon.className}/>)
+                                            else if(Icon.isRefuseBtn === true) return (<Icon.Components key={i} id={ele.id} chef={this.props.ChefEq} className={Icon.className}/>)
                                             
 
-                                            else if(Icon.isFolderBtn === true) return (<Link key={i} to={"/admin/doctorants/"+ele.id}><Icon.Components className={Icon.className}/></Link>)
+                                            else if(Icon.isFolderBtn === true) return (<Link key={i} to={Icon.path+ele.id}><Icon.Components className={Icon.className}/></Link>)
+
+                                            else if(Icon.isVisibleFileBtn === true) return (<a key={i} href={ele.data} download={ele.name} ><Icon.Components className={Icon.className}/></a>)
+
+                                            else if(Icon.isDeleteFileBtn === true) return (<div key={i} onClick={()=>{
+                                                document.getElementById("IdFileDelete").setAttribute("value",ele.id)
+                                                document.getElementById("IdFileDelete").click();
+                                            }}> <Icon.Components className={Icon.className}/></div>)
                                             
                                             return <Icon.Components key={i} className={Icon.className}/>
                                         })}

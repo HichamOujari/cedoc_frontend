@@ -39,14 +39,6 @@ class EnsgDoctorantAct extends Component {
         ]
     }
     componentDidMount(){
-        if(this.props.ChefEq){
-            this.contentAction = [...this.contentAction,{
-                Components:FolderSharedIcon,
-                className:"text-secondary",
-                isFolderBtn:true,
-                path:"/documents/doctorants/"
-            }]
-        }
         Axios.get("http://localhost:3001/auth/OldDoct",{
             params:{
                 userid:Cookies.get("USERid")

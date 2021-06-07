@@ -3,6 +3,7 @@ import BarAdmin from "../shared/barAdmin"
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import GroupRoundedIcon from '@material-ui/icons/GroupRounded';
 import WorkRoundedIcon from '@material-ui/icons/WorkRounded';
+import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 
 class BarsEnseignant extends Component {
     SideEle=[
@@ -31,6 +32,18 @@ class BarsEnseignant extends Component {
             ele:[]
         },
     ]
+
+    componentDidMount(){
+        if(this.props.ChefEq!==true){
+            this.SideEle = [...this.SideEle,{
+                title:"Mes Doctorants",
+                path:"/enseignant/mes-doctorants",
+                icon:<RecordVoiceOverIcon className="icon" />,
+                ele:[]
+            }]
+        }
+    }
+    
     render() {
         return (
             <BarAdmin profilPath={this.props.ChefEq===true?"/chef-equipe/profil":"/enseignant/profil"} Eles={this.SideEle}/>

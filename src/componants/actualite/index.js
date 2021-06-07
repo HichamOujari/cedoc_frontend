@@ -3,6 +3,7 @@ import "./actualite.css"
 import Navbar from "../shared/navbar"
 import Title from "../shared/title"
 import Table from "../shared/table"
+import Axios from "axios"
 
 export default class Actualite extends Component {
   state={
@@ -32,13 +33,23 @@ export default class Actualite extends Component {
             nomDATA:"cne",
             nickname:"CNE"
         },{
-            nomDATA:"cni",
-            nickname:"CNI"
-        },{
             nomDATA:"equipe",
             nickname:"Equipe"
         },
       ]
+  }
+  componentDidMount(){
+      Axios.get("http://localhost:3001/auth/getAcceptedDoct")
+      .then(resp=>{
+          console.log(resp.data)
+          if(resp.data.error===false){
+              this.setState({
+                data:resp.data.data
+              })
+          }else{
+
+          }
+      })
   }
   render() {
     return (

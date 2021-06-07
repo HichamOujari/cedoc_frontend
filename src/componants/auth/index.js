@@ -1,7 +1,7 @@
 import React, { useContext,useState } from 'react';
 import Navbar from "../shared/navbar"
 import "./auth.css"
-import {Link,Redirect} from "react-router-dom"
+import {Redirect} from "react-router-dom"
 import AuthContext from "../../authContext"
 import Cookies from "js-cookie"
 import Axios from "axios"
@@ -78,7 +78,6 @@ const Login =()=> {
                             <label htmlFor="showPassCheck">Afficher le mot de passe</label>
                         </div>
                         <input type="submit" value="Sign In" className="SignInBtn" />
-                        <Link to="forgetPassword" className="forgetPassword">Mot de passe oublié ?</Link>
                     </form>
                 </div>
             </div>

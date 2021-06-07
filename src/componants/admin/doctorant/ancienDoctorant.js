@@ -17,6 +17,7 @@ class AncienDoctorant extends Component {
             Components:FolderSharedIcon,
             className:"text-secondary",
             isFolderBtn:true,
+            path:"/admin/doctorants/"
         },
     ]
     state={
